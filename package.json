@@ -1,0 +1,22 @@
+{
+  "name": "autumn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "BjChacha",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.1.1",
+    "xml2js": "^0.4.23"
+  },
+  "type": "module",
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-plugin-react": "^7.31.8"
+  }
+}
