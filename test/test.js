@@ -13,7 +13,7 @@ const p = { username, password };
 // })();
 
 (async () => {
-  const file = await readFile('../mock/test.html');
+  const file = await readFile('../mock/test00.html');
   const html = file.toString().split('\r\n').map((line) => line.trim());
   const bookmarks = {
     name: 'root',
