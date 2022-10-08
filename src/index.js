@@ -1,7 +1,5 @@
-function component() {
-  const element = document.createElement('div');
-  element.innerHTML = 'Hello World!';
-  return element
-}
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import App from './App';
 
-document.getElementById('root').appendChild(component());
+createRoot(document.getElementById('root')).render(<App />);
