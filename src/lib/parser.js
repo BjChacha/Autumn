@@ -1,6 +1,4 @@
-const { readFile } = require('node:fs/promises');
-
-async function bookmark2json(html) {
+export function bookmark2json(html) {
 
   const DT2Folder = (line) => {
     const res = {
