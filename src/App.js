@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { Tree } from 'antd';
-import { bookmark2json } from './lib/parser';
+import { bookmarkHtml2Json } from './lib/parser';
 
 export default function App() {
 
   const [bookmarks, setBookmarks] = useState();
 
-  // run on mount
+  // get bookmark data thought api on mount
   useEffect(() => {
     const url = 'http://127.0.0.1:3000/mock/test00.html'
     axios.get(url).then(res => {
-      setBookmarks(bookmark2json(res.data))
-      console.log('useEffect: ', res.data);
-      console.log(bookmark2json(res.data));
+      setBookmarks(bookmarkHtml2Json(res.data))
     });
   }, []);
 
@@ -22,10 +20,13 @@ export default function App() {
   function translate(root) {
     const res = {
       title: root.name,
+      key: root.id,
       children: [],
     };
-    for (const node of root.children) {
-      res.children.push(translate(node));
+    if (root.children) {
+      for (const node of root.children) {
+        res.children.push(translate(node));
+      }
     }
     return res;
   }

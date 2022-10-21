@@ -1,50 +1,93 @@
-export function bookmark2json(html) {
+const generate_folder = () => {
+  return {
+    // id: for react
+    id: undefined,
+    // type
+    type: 'folder',
+    // name to display
+    name: undefined,
+    // display order
+    order: null,
+    // date of create
+    date: undefined,
+    // date of last modified
+    last: undefined,
+    // folder's children
+    children: [],
+  };
+};
+
+const generate_entity = () => {
+  return {
+    // id: for react
+    id: undefined,
+    // type
+    type: 'entity',
+    // name to display
+    name: undefined,
+    // display order
+    order: null,
+    // url
+    url: null,
+    // date of create
+    date: undefined,
+  };
+};
+
+function hash(string) {
+  let hash = 0;
+  if (!string || string.length == 0) return '' + hash;
+
+  for (let i = 0; i < string.length; ++i) {
+    let ch = string.charCodeAt(i);
+    hash = ((hash << 5) - hash) + ch;
+    hash = hash & hash;
+  }
+  return '' + hash;
+}
+
+export function bookmarkHtml2Json(html) {
 
   const DT2Folder = (line) => {
-    const res = {
-      type: 'folder',
-      children: [],
-    };
-    const exps = {
+    const folder = generate_folder();
+    folder.children = [];
+    const regExps = {
       date: /ADD_DATE="(.+?)"/i,
       last: /LAST_MODIFIED="(.+?)"/i,
       name: /">(.+?)<\/H3>$/i,
     }
-    for (let [key, exp] of Object.entries(exps)) {
-      const r = line.match(exp);
-      if (r) res[key] = r[1];
+    for (let [key, regExp] of Object.entries(regExps)) {
+      const r = line.match(regExp);
+      if (r) folder[key] = r[1];
     }
-    return res;
+    folder.id = hash(`${folder.name}${folder.date}${Math.random()}`);
+    return folder;
   }
 
   const DT2Entity = (line) => {
-    const res = {
-      type: 'entity',
-    };
-    const exps = {
+    const entity = generate_entity();
+    const regExps = {
       href: /HREF="(.+?)"/i,
       date: /ADD_DATE="(.+?)"/i,
       name: /">(.+?)<\/A>$/i,
     }
-    for (let [key, exp] of Object.entries(exps)) {
-      const r = line.match(exp);
-      if (r) res[key] = r[1];
+    for (let [key, regExp] of Object.entries(regExps)) {
+      const r = line.match(regExp);
+      if (r) entity[key] = r[1];
     }
-    return res;
+    entity.id = hash(`${entity.name}${entity.date}${Math.random()}`);
+    return entity;
   }
 
   const lines = html.split('\r\n').map(line => line.trim());
 
-  const bookmarks = {
-    name: 'root',
-    type: 'folder',
-    children: [],
-  };
-
+  const bookmarks = generate_folder()
+  bookmarks.id = '0';
+  bookmarks.name = 'root';
   const stk = [];
   let cur = bookmarks.children;
 
-  for (let line of html) {
+  for (let line of lines) {
     if (/<\/DL>/.test(line)) {
       cur = stk.pop();
     } else if (/^<DT><H3/.test(line)) {
@@ -55,8 +98,11 @@ export function bookmark2json(html) {
     } else if (/^<DT><A/.test(line)) {
       let entity = DT2Entity(line);
       cur.push(entity);
+    } else {
+
     }
   }
+  console.log(bookmarks)
   return bookmarks;
 };
 
