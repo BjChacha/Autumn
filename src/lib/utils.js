@@ -1,6 +1,5 @@
-import { readFile } from 'node:fs/promises';
 
-export async function fetchData() {
-  const file = await readFile('mock/text00.html');
-  return file;
-}
+export function openNewTab(url) {
+  console.log(url);
+  window.open(url, '_blank', 'noopener, noreferrer');
+};

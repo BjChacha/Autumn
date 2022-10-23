@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
 import { Tree } from 'antd';
 import { bookmarkHtml2Json } from './lib/parser';
+import { openNewTab } from './lib/utils';
+import { fetchData } from './lib/request';
 
 export default function App() {
 
   const [bookmarks, setBookmarks] = useState();
 
-  const openNewTab = url => {
-    console.log(url);
-    window.open(url, '_blank', 'noopener, noreferrer');
-  };
-
-  const handleSelect = (key, { node }) => {
+  const handleSelect = (_, { node }) => {
     console.log(node);
     if (node.type === 'entity') {
       openNewTab(node.href)
@@ -22,10 +18,10 @@ export default function App() {
 
   // get bookmark data thought api on mount
   useEffect(() => {
-    const url = 'http://127.0.0.1:3000/mock/test00.html'
-    axios.get(url).then(res => {
-      setBookmarks(bookmarkHtml2Json(res.data))
-    });
+    const url = 'http://127.0.0.1:3000/mock/test00.html';
+    fetchData(url, data => {
+      setBookmarks(bookmarkHtml2Json(data));
+    })
   }, []);
 
   console.log('this is App')
