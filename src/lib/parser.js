@@ -28,7 +28,7 @@ const generate_entity = () => {
     // display order
     order: null,
     // url
-    url: null,
+    href: null,
     // date of create
     date: undefined,
   };

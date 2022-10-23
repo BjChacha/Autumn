@@ -7,6 +7,19 @@ export default function App() {
 
   const [bookmarks, setBookmarks] = useState();
 
+  const openNewTab = url => {
+    console.log(url);
+    window.open(url, '_blank', 'noopener, noreferrer');
+  };
+
+  const handleSelect = (key, { node }) => {
+    console.log(node);
+    if (node.type === 'entity') {
+      openNewTab(node.href)
+    }
+  }
+
+
   // get bookmark data thought api on mount
   useEffect(() => {
     const url = 'http://127.0.0.1:3000/mock/test00.html'
@@ -21,6 +34,8 @@ export default function App() {
     const res = {
       title: root.name,
       key: root.id,
+      type: root.type,
+      href: root.href,
       children: [],
     };
     if (root.children) {
@@ -38,6 +53,7 @@ export default function App() {
         bookmarks ?
           <Tree
             treeData={[translate(bookmarks)]}
+            onSelect={handleSelect}
           /> : <div>Loading</div>
       }
     </div>
