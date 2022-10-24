@@ -12,9 +12,17 @@ A cloud bookmark plugin synced with Webdav.
 - [x] Function: bookmark html -> json
   - [ ] Normalize json structrue
 - [x] Visualize bookmark json (antd)
-  - [x] click to open url
-    - [ ] fix bug: select folder to expand content
-  - [ ] right click menu
-  - [ ] drag & drop function
+- [x] click to open url
+  - [x] fix bug: select folder to expand content
+- [x] right click menu
+- [ ] drag & drop function
+- [ ] context menu keyboard shortcut
+- [ ] i18n
+- [ ] multiple edit in control mode
 - [ ] Webdav backup
 - [ ]
+
+
+## Known Bugs
+- [ ] escape character in bookmarks name string
+- [ ] multiple select & right menu
